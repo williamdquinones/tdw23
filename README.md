@@ -27,8 +27,7 @@ Por otra parte se incluye parcialmente la especificación de la API (OpenAPI 3.0
 especificación se ha elaborado empleando el editor [Swagger][swagger]. Adicionalmente 
 también se incluye la interfaz de usuario (SwaggerUI) de esta fenomenal herramienta que permite
 realizar pruebas interactivas de manera completa y elegante. La especificación entregada
-define las operaciones sobre usuarios del sistema y sobre `Productos`, por lo que quedan por implementar las 
-operaciones relativas a la gestión de `Entidades` y `Personas`.
+define las operaciones sobre usuarios del sistema y sobre `Productos`, `Entidades` y `Personas`.
 
 ## ⚙Instalación del proyecto️
 
@@ -66,9 +65,7 @@ A continuación se describe el contenido y estructura más destacado del proyect
     - Raíz de documentos del servidor web
     - `public/index.php`: controlador frontal
     - `public/api-docs`: especificación de la API (Swagger-UI)
-    - `public/demoAjax`: ejemplo básico acceso a la API (login)
-* Directorio `tests`:
-    - Pruebas unitarias y funcionales de la API
+    - `public/project`: parte front de la web junto con las peticiones ajax al servidor web
 * Directorio `vendor`:
     - Componentes desarrollados por terceros (Doctrine, Dotenv, Slim, etc.)
 
@@ -83,48 +80,6 @@ de PHP se ejecutará el comando:
 
 Una vez hecho esto, la aplicación estará disponible en [http://127.0.0.1:8000/][lh].
 
-## 🛠️Ejecución de pruebas
-
-La aplicación incorpora un conjunto completo de herramientas para la ejecución de pruebas 
-unitarias y de integración con [PHPUnit][phpunit]. Empleando este conjunto de herramientas
-es posible comprobar de manera automática el correcto funcionamiento de la API completa
-sin la necesidad de herramientas adicionales.
-
-Para configurar el entorno de pruebas se debe crear un nuevo esquema de bases de datos vacío,
-y una copia del fichero `./phpunit.xml.dist` y renombrarla como `./phpunit.xml`.
-Después se debe editar este último fichero para asignar los siguientes parámetros:
-                                                                            
-* Configuración (líneas 17-19) del acceso a la nueva base de datos (`DATABASE_NAME`, `DATABASE_USER`
-y `DATABASE_PASSWD`)
-* Si se desea (líneas 23-25), se pueden modificar el nombre y contraseña de los usuarios que se van
-a emplear para realizar las pruebas (no es necesario insertarlos, lo hace automáticamente
-el método `setUpBeforeClass()` de la clase `BaseTestCase`)
-
-Para lanzar la suite de pruebas completa se debe ejecutar:
-```
-> bin/phpunit [--testdox] [--coverage-text] [-v]
-```
-
-Adicionalmente, para comprobar la calidad de las pruebas, el proyecto incluye test de mutaciones
-generados con la herramienta [Infection][infection].
-El funcionamiento es simple: se generan pequeños cambios en el código original (_mutantes_), y a continuación
-se ejecuta la batería de pruebas. Si las pruebas fallan, indica que han sido capaces de detectar la modificación
-del código, y el mutante es eliminado. Si pasa las pruebas, el mutante sobrevive y la fiabilidad de la prueba
-queda cuestionada.
-
-Para lanzar los test de mutaciones se ejecutará:
-```
-> composer infection
-```
-
-Por último, también se han añadido dos herramientas para el análisis estático de código,
-[PHPStan][phpstan] y [PhpMetrics][phpmetrics]. PhpStan es una herramienta de análisis estático de código, mientras que
-PhpMetrics analiza el código y permite generar informes con diferentes métricas del proyecto.
-Estas herramientas pueden ejecutarse a través de los comandos:
-```
-> composer phpstan
-> composer metrics
-```
 
 [dataMapper]: http://martinfowler.com/eaaCatalog/dataMapper.html
 [doctrine]: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/
