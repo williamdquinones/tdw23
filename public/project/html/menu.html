@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login ciencia</title>
+  <!-- Scripts propios -->
+  <script type="text/javascript" src="../js/menu.js"></script>
+  <script type="text/javascript" src="../js/crud.js"></script>
+  <script type="text/javascript" src="../js/form.js"></script>
+  <script type="text/javascript" src="../js/utilities.js"></script>
+  <!-- CSS propio -->
+  <style>
+    ul li img{
+      width: 33px;
+      padding-right: 5px;
+    }
+    img:hover{
+      cursor: pointer;
+    }
+    li.dropdown-item{
+      cursor: pointer;
+    }
+    i{
+      font-size: 22px;
+    }
+  </style>
+  <!-- Implementar bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</head>
+<body id="body" onload="onLoadMenu()">
+<div class="container col-md-10 mt-3 border-bottom bg-body-tertiary">
+  <nav class="navbar border-bottom navbar-expand-lg">
+    <div class="container-fluid">
+      <h2 class="me-2">Anales de la Ciencia</h2>
+      <div class="d-flex" id="navbarNavDarkDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <span class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="welcome"></span>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item" id="seeProfile" data-bs-toggle="modal" data-bs-target="#modalProfile">Ver/modificar perfil</li>
+              <li class="dropdown-item" id="manageProfiles" data-bs-toggle="modal" data-bs-target="#modalManageProfiles">Gestionar perfiles</li>
+              <li class="dropdown-item" onclick="logOut()">Cerrar sesión</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="row mt-3 mb-3" id="main">
+    <div class="col-md-4 border-end text-center" id="products">
+      <h3 class="text-center text-decoration-underline">Productos</h3>
+      <ul class="list-group list-group-flush"></ul>
+    </div>
+    <div class="col-md-4 border-end text-center" id="persons">
+      <h3 class="text-center text-decoration-underline">Personas</h3>
+      <ul class="list-group list-group-flush"></ul>
+    </div>
+    <div class="col-md-4 text-center" id="entities">
+      <h3 class="text-center text-decoration-underline">Entidades</h3>
+      <ul class="list-group list-group-flush"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SEE PROFILE -->
+<div class="modal fade" id="modalProfile" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-body-tertiary">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="profUsername" class="form-label">Username</label>
+          <input type="text" class="form-control sm-3" id="profUsername" name="profUser" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="profName" class="form-label">Name</label>
+          <input type="text" class="form-control sm-3" id="profName" name="profName">
+        </div>
+        <div class="mb-3">
+          <label for="profBirthDate" class="form-label">Birthdate</label>
+          <input type="date" class="form-control sm-3" id="profBirthDate" name="profBirthDate">
+        </div>
+        <div class="mb-3">
+          <label for="profEmail" class="form-label">Email</label>
+          <input type="email" class="form-control sm-3" id="profEmail" name="profEmail">
+        </div>
+        <div class="mb-3">
+          <label for="profUrl" class="form-label">URL</label>
+          <input type="email" class="form-control sm-3" id="profUrl" name="profUrl">
+        </div>
+        <div class="mb-3">
+          <label for="profPass" class="form-label">Password</label>
+          <input type="password" class="form-control sm-3 passwd" id="profPass" name="profPass">
+          <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault" onclick="showPass()">
+          <label class="form-check-label mt-1" for="flexCheckDefault">Show password</label>
+        </div>
+        <div class="mb-3">
+          <label for="profRole" class="form-label">Role</label>
+          <select class="form-select" id="profRole">
+            <option value="WRITER">WRITER</option>
+            <option value="READER">READER</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="profStatus" class="form-label">Status</label>
+          <select class="form-select" id="profStatus">
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="INACTIVE">INACTIVE</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary float-end mb-2" id="profileSaveChanges">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MANAGE PROFILES -->
+<div class="modal fade" id="modalManageProfiles" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-body-tertiary">
+      <div class="modal-header">
+        <h5 class="modal-title">Gestiona aquí los usuarios existentes</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <ul class="list-group list-group-flush" id="users"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
